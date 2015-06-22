@@ -1,10 +1,70 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Hello World!</title>
+    <title>Spending Tracker</title>
   </head>
-  <body>
-    <h1>Hello World!</h1>
-    We are using node.js <script>document.write(process.version)</script>.
+  <body onload="incoming()">
+    <h1>Track your spending</h1>
+	<script>
+	var words;
+	function incoming(){
+		fs = require('fs');
+		fs.readFile('spend.json','utf8', function (err, data){
+			if (err){
+				document.getElementById('entry').innerHTML = "Welcome! New user.";
+				return console.log(err);
+			}
+			words = data;
+			document.getElementById('entry').innerHTML = data;
+		});
+	
+	}
+	function say(word) {
+		window.alert(word);
+		var fs = require('fs');
+		var stream = fs.createWriteStream("spend.json");
+		stream.once('open', function(fd) {
+		stream.write("My first row\n");
+		stream.write("My second row\n");
+		stream.end();
+		});
+		return word;
+    }
+
+	function execute(someFunction, value) {
+		someFunction(value);
+	}
+	
+	function save(date, choose, amount, reference){
+		window.alert(words);
+		if (choose==0){
+			amount = amount*-1;
+		}
+		var fs = require('fs');
+		var stream = fs.createWriteStream("spend.json");
+		stream.once('open', function(fd) {
+		stream.write(words);
+		stream.write("My second row\n");
+		stream.end();
+		});
+		location.reload();
+	}
+
+	</script>
+    
+	<br>
+	<form>
+	Record :
+	<input type="date" name="recordDate">
+	<select name="choose">
+	<option value="0">Spending</option>
+	<option value="1">Income</option>
+	</select>
+	<input type="number" name="amount">
+	<input type="text" name="ref">
+	<button type="button" onclick="save('1/1/1980', 1, 100, 'Hello, World')">Send</button>
+	</form>
+	<br>
+	<p id="entry"></p>
   </body>
 </html>
